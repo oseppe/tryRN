@@ -8,14 +8,15 @@ import Home from './App/Screens/Home';
 const Stack = createStackNavigator(
   {
     Login: {
-      screen: Login
+      screen: Login,
     },
     Home: {
-      screen: Home
+      screen: Home,
     },
   },
   {
     initialRouteName: 'Login',
+    headerMode: 'none',
   }
 )
 

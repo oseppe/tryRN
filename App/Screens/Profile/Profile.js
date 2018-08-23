@@ -4,11 +4,12 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 
 import { colors } from '../../Themes/colors';
 
-export default class Home extends React.Component {
+export default class Profile extends React.Component {
+
   render() {
     return (
       <View style={styles.container}>
-				<Text>Home 2</Text>
+	    <Text>Profile</Text>
       </View>
     );
   }
