@@ -13,13 +13,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-				<Button 
-					title="Login"
-					color={colors.btnLogin}
-					accessibilityLabel="Login"
-					onPress={this.onPressLogin}
-				/>
-				<Toast ref={(c) => this.toastify = c} />
+				<Text>Home</Text>
       </View>
     );
   }
