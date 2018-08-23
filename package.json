@@ -19,6 +19,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@rimiti/react-native-toastify": "^0.3.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "expo": "^27.0.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",

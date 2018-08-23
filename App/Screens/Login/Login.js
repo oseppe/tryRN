@@ -1,11 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
+import Toast from '@rimiti/react-native-toastify';
+
+import { colors } from '../../Themes/colors';
 
 export default class Login extends React.Component {
+
+	onPressLogin = () => {
+		this.toastify.show('Hello World !', 1000);
+	}
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Login</Text>
+				<Button 
+					title="Login"
+					color={colors.btnLogin}
+					accessibilityLabel="Login"
+					onPress={this.onPressLogin}
+				/>
+				<Toast ref={(c) => this.toastify = c} />
       </View>
     );
   }
