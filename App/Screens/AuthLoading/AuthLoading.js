@@ -3,13 +3,20 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 
 
 import { colors } from '../../Themes/colors';
+import { getPassedUsername, getPassedPassword } from '../../Utilities/utils';
 
 export default class AuthLoading extends React.Component {
   
   componentDidMount = () => {
-    const isLoggedIn = Math.random < 0.5
+    const { navigation } = this.props;
 
-    this.props.navigation.navigate( isLoggedIn ? 'App' : 'Auth')
+    const username = getPassedUsername(navigation) 
+    const password = getPassedPassword(navigation);
+    
+    hasPassedCreds = username && password;
+    
+    if (hasPassedCreds) this.props.navigation.navigate( 'Home', { username, password});
+    else this.props.navigation.navigate('Auth');
   }
 
   render() {
