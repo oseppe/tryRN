@@ -13,9 +13,9 @@ export default class AuthLoading extends React.Component {
     const username = getPassedUsername(navigation) 
     const password = getPassedPassword(navigation);
     
-    hasPassedCreds = username && password;
-    
-    if (hasPassedCreds) this.props.navigation.navigate( 'Home', { username, password});
+    hasValidCreds = username && password;
+    // hasPassedCreds = true;
+    if (hasValidCreds) this.props.navigation.navigate( 'Home', { username, password});
     else this.props.navigation.navigate('Auth');
   }
 

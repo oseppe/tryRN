@@ -6,6 +6,8 @@ import { colors } from '../../Themes/colors';
 import { getPassedUsername, getPassedPassword } from '../../Utilities/utils';
 
 export default class Home extends React.Component {
+  onPressLogout = () => this.props.navigation.navigate('Auth');
+
   render() {
     const { navigation } = this.props;
 
@@ -16,6 +18,12 @@ export default class Home extends React.Component {
       <View style={styles.container}>
 				<Text>Hello {username}</Text>
         <Text>{password}</Text>
+        <Button 
+          title="Logout"
+          color={colors.btnLogin}
+          accessibilityLabel="Logout"
+          onPress={this.onPressLogout}
+        />
       </View>
     );
   }
