@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Button, TextInput, Text } from 'react-native';
 
 import { colors } from '../../Themes/colors';
+import { GotoScreen } from '../../Navigation/Routes';
 
 export default class Login extends React.Component {
 
@@ -16,7 +17,8 @@ export default class Login extends React.Component {
 	onPressLogin = () => {
     const { username, password } = this.state;
 
-		this.props.navigation.navigate('AuthLoading', { username, password });
+    // this.props.navigation.navigate('AuthLoading', { username, password });
+    GotoScreen('advisors');
 	}
 
   render() {

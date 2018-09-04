@@ -1,5 +1,7 @@
+import React from 'react';
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Navigation } from 'react-native-navigation';
+import { Router, Stack, Scene, Actions, } from 'react-native-router-flux';
 
 import Profile from '../Screens/Profile';
 import Home from '../Screens/Home';
@@ -9,6 +11,8 @@ import Login from '../Screens/Login';
 import ForgotPassword from '../Screens/ForgotPassword';
 import RegisterAccount from '../Screens/RegisterAccount';
 import AuthLoading from '../Screens/AuthLoading';
+import Welcome from '../Screens/Welcome';
+import { ROUTE_KEYS } from '../Common/Constants/keys';
 
 const AppStack = createStackNavigator(
   {
@@ -67,3 +71,16 @@ export const registerRoutes = () => {
   Navigation.registerComponent('Login', () => Login);
   Navigation.registerComponent('ForgotPassword', () => ForgotPassword);
 };
+
+export const AppRoutes = () => (
+<Router>
+  <Stack key={ROUTE_KEYS.ROOT}>
+    <Scene key={ROUTE_KEYS.WELCOME} component={Welcome} hideNavBar={true}/>
+    <Scene key={ROUTE_KEYS.LOGIN} component={Login} title="Login"/>
+    <Scene key={ROUTE_KEYS.HOME} component={Home} title="Home"/>
+    <Scene key={ROUTE_KEYS.ADVISORS} component={Home} title="Advisors"/>
+  </Stack>
+</Router>
+)
+
+export const GotoScreen = key => Actions[key]();
