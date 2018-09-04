@@ -13,6 +13,7 @@ import RegisterAccount from '../Screens/RegisterAccount';
 import AuthLoading from '../Screens/AuthLoading';
 import Welcome from '../Screens/Welcome';
 import { ROUTE_KEYS } from '../Common/Constants/keys';
+import { isAndroid } from '../Common/Utils/platformChecker';
 
 const AppStack = createStackNavigator(
   {
@@ -72,15 +73,20 @@ export const registerRoutes = () => {
   Navigation.registerComponent('ForgotPassword', () => ForgotPassword);
 };
 
-export const AppRoutes = () => (
-<Router>
-  <Stack key={ROUTE_KEYS.ROOT}>
-    <Scene key={ROUTE_KEYS.WELCOME} component={Welcome} hideNavBar={true}/>
-    <Scene key={ROUTE_KEYS.LOGIN} component={Login} title="Login"/>
-    <Scene key={ROUTE_KEYS.HOME} component={Home} title="Home"/>
-    <Scene key={ROUTE_KEYS.ADVISORS} component={Home} title="Advisors"/>
-  </Stack>
-</Router>
-)
+export const AppRoutes = () => {
+  const hideNavBar = isAndroid();
+
+  return (
+    <Router>
+      <Stack key={ROUTE_KEYS.ROOT}>
+        <Scene key={ROUTE_KEYS.WELCOME} component={Welcome} hideNavBar={true}/>
+        <Scene key={ROUTE_KEYS.LOGIN} component={Login} title="Login" hideNavBar={hideNavBar}/>
+        <Scene key={ROUTE_KEYS.HOME} component={Home} title="Home" hideNavBar={hideNavBar} />
+        <Scene key={ROUTE_KEYS.ADVISORS} component={Home} title="Advisors"/>
+        <Scene key={ROUTE_KEYS.REGISTER_ACCOUNT} component={RegisterAccount} title="Register Account" hideNavBar={hideNavBar} />
+      </Stack>
+    </Router>
+  )
+}
 
 export const GotoScreen = key => Actions[key]();

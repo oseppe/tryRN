@@ -2,7 +2,7 @@ import React from 'react';
 import { Font, AppLoading } from "expo"
 import { Container, Button, Text } from 'native-base';
 import Roboto_medium from 'native-base/Fonts/Roboto_medium.ttf'
-import { ImageBackground } from 'react-native';
+import { ImageBackground, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import WelcomePhoto from './assets/images/welcome_screen.jpg';
@@ -25,6 +25,8 @@ class Welcome extends React.Component {
   }
 
   onPressLogin = () => Actions[ROUTE_KEYS.LOGIN].call();
+  // onPressLogin = () => console.log(Platform.OS);
+  onPressRegister = () => Actions[ROUTE_KEYS.REGISTER_ACCOUNT].call();
 
   render() {
     const fontNotLoaded = !this.state.isFontLoaded;
@@ -52,6 +54,7 @@ class Welcome extends React.Component {
             <Button 
               block 
               bordered
+              onPress={this.onPressRegister}
               style={{
                 borderColor: MainPalette.darkIndigo,
                 backgroundColor: MainPalette.wildSand,
