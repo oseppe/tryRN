@@ -2,7 +2,7 @@ import React from 'react';
 import { Font, AppLoading } from "expo"
 import { Container, Button, Text } from 'native-base';
 import Roboto_medium from 'native-base/Fonts/Roboto_medium.ttf'
-import { ImageBackground, Platform } from 'react-native';
+import { ImageBackground, } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import WelcomePhoto from './assets/images/welcome_screen.jpg';
