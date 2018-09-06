@@ -1,28 +1,15 @@
 import React from 'react';
-import { Platform, StyleSheet, KeyboardAvoidingView, Text, TextInput } from 'react-native';
 import {
-  Content, Container, Header, Footer, Form, Item, Label, Input,
+  Content, Container, Footer, Form, Item, Label, Input,
 } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import { colors } from '../../Themes/colors';
 
-export default class RegisterAccount extends React.Component {
-  state = {
-    isComplete: false,
-  }
+import Header from '../../Common/Components/CustomHeader';
 
+export default class RegisterAccount extends React.Component {
   // constructor(props) {
   //   super(props);
   // }
-
-  componentDidMount() {
-    console.log('mounted');
-  }
-
-  onFocus = () => {
-    console.log('blab');
-  }
-
   _scrollToInput = (reactNode) => {
     // Add a 'scroll' ref to your ScrollView
     this.scroll.scrollToFocusedInput(reactNode);
@@ -31,11 +18,13 @@ export default class RegisterAccount extends React.Component {
   render() {
     return (
       <Container>
+        <Header title="Register Account" />
         <Content
           enableOnAndroid
+          enableAutomaticScroll
           keyboardOpeningTime={0}
           contentContainerStyle={{
-            height: '100%',
+            flex: 1,
             justifyContent: 'center',
           }}
         >
@@ -50,6 +39,7 @@ export default class RegisterAccount extends React.Component {
             </Item>
           </Form>
         </Content>
+        <Footer />
       </Container>
     );
   }
