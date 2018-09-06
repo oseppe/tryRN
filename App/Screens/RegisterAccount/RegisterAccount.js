@@ -5,6 +5,7 @@ import {
 // import { colors } from '../../Themes/colors';
 
 import Header from '../../Common/Components/CustomHeader';
+import BtnBack from '../../Common/Components/CustomHeaderActions/LeftBackButton';
 
 export default class RegisterAccount extends React.Component {
   // constructor(props) {
@@ -14,15 +15,21 @@ export default class RegisterAccount extends React.Component {
     // Add a 'scroll' ref to your ScrollView
     this.scroll.scrollToFocusedInput(reactNode);
   }
+  // enableAutomaticScroll
+  // enableOnAndroid
 
   render() {
     return (
       <Container>
-        <Header title="Register Account" />
+        <Header
+          title="Register Account"
+          LeftChildren={BtnBack}
+        />
         <Content
-          enableOnAndroid
-          enableAutomaticScroll
           keyboardOpeningTime={0}
+          enableOnAndroid
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          scrollEnabled={false}
           contentContainerStyle={{
             flex: 1,
             justifyContent: 'center',

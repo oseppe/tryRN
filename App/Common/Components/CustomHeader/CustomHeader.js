@@ -3,6 +3,7 @@ import {
   Header, Left, Body, Right,
 } from 'native-base';
 import { Text } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import PropTypes from 'prop-types';
 
 import { MainPalette } from '../../Constants/colors';
@@ -12,20 +13,51 @@ const CustomHeader = (props) => {
     headerStyle,
     title,
     leftStyle,
-    leftChildren,
+    LeftChildren,
     rightStyle,
-    rightChildren,
+    RightChildren,
     bodyStyle,
   } = props;
 
+  const statusBarHeight = getStatusBarHeight();
+  const paddingTop = statusBarHeight * 1.5;
+  const paddingBottom = statusBarHeight * 0.75;
+
+  const updatedHeaderStyle = {
+    ...headerStyle,
+    paddingTop,
+    paddingBottom,
+  };
+
   return (
-    <Header style={headerStyle}>
-      <Left style={leftStyle}>
-        { leftChildren }
+    <Header style={updatedHeaderStyle}>
+      <Left style={{
+        ...leftStyle,
+        flex: 1,
+      }}
+      >
+        { LeftChildren ? <LeftChildren /> : null }
       </Left>
-      <Body style={bodyStyle}><Text>{title}</Text></Body>
-      <Right style={rightStyle}>
-        { rightChildren }
+      <Body style={{
+        flex: 2,
+        ...bodyStyle,
+        alignItems: 'center',
+      }}
+      >
+        <Text style={{
+          color: MainPalette.white,
+          fontWeight: 'bold',
+        }}
+        >
+          {title}
+        </Text>
+      </Body>
+      <Right style={{
+        ...rightStyle,
+        flex: 1,
+      }}
+      >
+        { RightChildren ? <RightChildren /> : null }
       </Right>
     </Header>
   );
@@ -34,22 +66,22 @@ const CustomHeader = (props) => {
 CustomHeader.propTypes = {
   headerStyle: PropTypes.object,
   leftStyle: PropTypes.object,
-  leftChildren: PropTypes.node,
+  LeftChildren: PropTypes.func,
   rightStyle: PropTypes.object,
-  rightChildren: PropTypes.node,
+  RightChildren: PropTypes.func,
   bodyStyle: PropTypes.object,
   title: PropTypes.string,
 };
 
 CustomHeader.defaultProps = {
   headerStyle: {
-    backgroundColor: MainPalette.white,
+    backgroundColor: MainPalette.axaBlue,
   },
-  leftStyle: { color: MainPalette.mineShaft },
-  leftChildren: null,
-  rightStyle: { color: MainPalette.mineShaft },
-  rightChildren: null,
-  bodyStyle: { color: MainPalette.mineShaft },
+  leftStyle: { flex: 1 },
+  LeftChildren: null,
+  rightStyle: { flex: 1 },
+  RightChildren: null,
+  bodyStyle: { flex: 2 },
   title: '',
 };
 
