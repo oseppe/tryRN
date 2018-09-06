@@ -20,8 +20,8 @@ const CustomHeader = (props) => {
   } = props;
 
   const statusBarHeight = getStatusBarHeight();
-  const paddingTop = statusBarHeight * 1.5;
-  const paddingBottom = statusBarHeight * 0.75;
+  const paddingTop = statusBarHeight * 2;
+  const paddingBottom = statusBarHeight;
 
   const updatedHeaderStyle = {
     ...headerStyle,

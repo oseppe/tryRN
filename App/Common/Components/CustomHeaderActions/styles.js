@@ -5,4 +5,7 @@ export default StyleSheet.create({
   btn: {
     backgroundColor: MainPalette.axaBlue,
   },
+  icon: {
+    color: MainPalette.white,
+  },
 });

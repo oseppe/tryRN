@@ -46,7 +46,6 @@ export default class RegisterAccount extends React.Component {
             </Item>
           </Form>
         </Content>
-        <Footer />
       </Container>
     );
   }
