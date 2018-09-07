@@ -8,6 +8,7 @@ import {
 import Header from '../../Common/Components/CustomHeader';
 import BtnBack from '../../Common/Components/CustomHeaderActions/LeftBackButton';
 import TextField from '../../Common/Components/TextField';
+import { required, noXs } from '../../Common/Utils/validations';
 
 export default class RegisterAccount extends React.Component {
   // constructor(props) {
@@ -16,6 +17,9 @@ export default class RegisterAccount extends React.Component {
 
   state = {
     extra: '',
+    extraError: '',
+    name: '',
+    nameError: '',
     focusedInput: '',
   }
 
@@ -26,15 +30,38 @@ export default class RegisterAccount extends React.Component {
   // enableAutomaticScroll
   // enableOnAndroid
 
-  onPressIcon = () => console.log('clear input pls');
+  onPressIcon = (label) => () => this.setState({ [label]: '' })
 
   onFocusInput = (label) => () => this.setState({ focusedInput: label })
 
-  onChangeTextInput = (label) => (value) => this.setState({ [label]: value })
+  onChangeTextInput = (label) => {
+    return (value, errorMsg) => {
+      const labelError = `${label}Error`;
+
+      this.setState({
+        [label]: value,
+        [labelError]: errorMsg,
+      });
+    };
+  }
+
+  onValidate = (label) => {
+    return (errorMsg) => {
+      const labelError = `${label}Error`;
+
+      this.setState({ [labelError]: errorMsg });
+    };
+  }
 
   render() {
-    const { extra, focusedInput } = this.state;
-    
+    const {
+      extra,
+      extraError,
+      name,
+      nameError,
+      focusedInput,
+    } = this.state;
+
     return (
       <Container>
         <Header
@@ -55,15 +82,28 @@ export default class RegisterAccount extends React.Component {
             <TextField
               label="extra"
               value={extra}
+              errorMsg={extraError}
               focusedInput={focusedInput}
               onFocus={this.onFocusInput('extra')}
               onChangeText={this.onChangeTextInput('extra')}
-              onPressIcon={this.onPressIcon}
+              onPressIcon={this.onPressIcon('extra')}
+              onValidate={this.onValidate('extra')}
+              validators={[noXs, required]}
+            />
+            <TextField
+              label="name"
+              value={name}
+              errorMsg={nameError}
+              focusedInput={focusedInput}
+              onFocus={this.onFocusInput('name')}
+              onChangeText={this.onChangeTextInput('name')}
+              onPressIcon={this.onPressIcon('name')}
+              onValidate={this.onValidate('name')}
+              validators={[required]}
             />
             <Item floatingLabel>
               <Label>Email</Label>
               <Input />
-              <Icon name="close-circle" onPress={this.onPressIcon} />
             </Item>
             <Item floatingLabel>
               <Label>Policy</Label>
