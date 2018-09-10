@@ -103,6 +103,7 @@ export default class RegisterAccount extends React.Component {
               onChangeText={this.onChangeTextInput('name')}
               onPressIcon={this.onPressIcon('name')}
               onValidate={this.onValidate('name')}
+              secureTextEntry
               validators={[required]}
             />
           </Form>

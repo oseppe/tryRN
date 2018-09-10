@@ -24,12 +24,13 @@ const TextField = (props) => {
     onFocus,
     onPressIcon,
     onValidate,
+    secureTextEntry,
     value,
     validators,
   } = props;
 
   const isFocused = focusedInput === label;
-
+  const hasError = errorMsg !== '';
   const transFormedLabel = capitalize(label);
 
   const updatedOnChangeText = (val) => {
@@ -68,15 +69,16 @@ const TextField = (props) => {
 
   return (
     <View>
-      <Item floatingLabel>
+      <Item floatingLabel error={hasError}>
         <Label>{transFormedLabel}</Label>
         <Input
           value={value}
           onChangeText={updatedOnChangeText}
           onFocus={onFocus}
           onBlur={updatedOnBlur}
+          secureTextEntry={secureTextEntry}
         />
-        { isFocused ? <Icon name="close-circle" onPress={onPressIcon} /> : null }
+        { isFocused ? <Icon name="close-circle" style={{ color: MainPalette.mineShaft }} onPress={onPressIcon} /> : null }
       </Item>
       <View style={{ paddingLeft: 16 }}>
         <Text style={{ color: MainPalette.burntSienna }}>{errorMsg}</Text>
@@ -94,6 +96,7 @@ TextField.propTypes = {
   onFocus: PropTypes.func,
   onPressIcon: PropTypes.func,
   onValidate: PropTypes.func,
+  secureTextEntry: PropTypes.bool,
   value: PropTypes.string,
   validators: PropTypes.array,
 };
@@ -107,6 +110,7 @@ TextField.defaultProps = {
   onFocus: () => {},
   onPressIcon: () => {},
   onValidate: () => {},
+  secureTextEntry: false,
   value: '',
   validators: [],
 };
