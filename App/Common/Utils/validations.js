@@ -13,3 +13,16 @@ export const noXs = (value) => {
 
   return index === -1 ? '' : 'Cannot have any x';
 };
+
+export const validateInput = (value, validators = []) => {
+  let errorMsgs = [];
+
+  // Run validators only if at least 1 is passed
+  if (validators.length > 0) {
+    errorMsgs = validators.map(validator => validator(value));
+  }
+
+  const hasErrorMsg = errorMsgs.find(msg => msg !== '');
+
+  return hasErrorMsg === undefined ? '' : hasErrorMsg;
+};

@@ -16,8 +16,8 @@ export default class RegisterAccount extends React.Component {
   // }
 
   state = {
-    extra: '',
-    extraError: '',
+    policy: '',
+    policyError: '',
     name: '',
     nameError: '',
     focusedInput: '',
@@ -33,6 +33,8 @@ export default class RegisterAccount extends React.Component {
   onPressIcon = (label) => () => this.setState({ [label]: '' })
 
   onFocusInput = (label) => () => this.setState({ focusedInput: label })
+
+  onBlurInput = () => this.setState({ focusedInput: '' });
 
   onChangeTextInput = (label) => {
     return (value, errorMsg) => {
@@ -55,8 +57,8 @@ export default class RegisterAccount extends React.Component {
 
   render() {
     const {
-      extra,
-      extraError,
+      policy,
+      policyError,
       name,
       nameError,
       focusedInput,
@@ -80,14 +82,15 @@ export default class RegisterAccount extends React.Component {
         >
           <Form>
             <TextField
-              label="extra"
-              value={extra}
-              errorMsg={extraError}
+              label="policy"
+              value={policy}
+              errorMsg={policyError}
               focusedInput={focusedInput}
-              onFocus={this.onFocusInput('extra')}
-              onChangeText={this.onChangeTextInput('extra')}
-              onPressIcon={this.onPressIcon('extra')}
-              onValidate={this.onValidate('extra')}
+              onBlur={this.onBlurInput}
+              onFocus={this.onFocusInput('policy')}
+              onChangeText={this.onChangeTextInput('policy')}
+              onPressIcon={this.onPressIcon('policy')}
+              onValidate={this.onValidate('policy')}
               validators={[noXs, required]}
             />
             <TextField
@@ -95,20 +98,13 @@ export default class RegisterAccount extends React.Component {
               value={name}
               errorMsg={nameError}
               focusedInput={focusedInput}
+              onBlur={this.onBlurInput}
               onFocus={this.onFocusInput('name')}
               onChangeText={this.onChangeTextInput('name')}
               onPressIcon={this.onPressIcon('name')}
               onValidate={this.onValidate('name')}
               validators={[required]}
             />
-            <Item floatingLabel>
-              <Label>Email</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Policy</Label>
-              <Input />
-            </Item>
           </Form>
         </Content>
       </Container>

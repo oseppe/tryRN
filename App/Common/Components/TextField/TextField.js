@@ -7,6 +7,9 @@ import {
 } from 'native-base';
 import PropTypes from 'prop-types';
 
+
+import { validateInput } from '../../Utils/validations';
+
 import { capitalize } from '../../Utils/stringUtils';
 
 import { MainPalette } from '../../Constants/colors';
@@ -16,6 +19,7 @@ const TextField = (props) => {
     errorMsg,
     focusedInput,
     label,
+    onBlur,
     onChangeText,
     onFocus,
     onPressIcon,
@@ -29,40 +33,49 @@ const TextField = (props) => {
   const transFormedLabel = capitalize(label);
 
   const updatedOnChangeText = (val) => {
-    let errorMsgs = [];
+    // let errorMsgs = [];
+    // // Run if passed
+    // if (validators.length > 0) {
+    //   errorMsgs = validators.map(validator => validator(val));
+    // }
 
-    // Run if passed
-    if (validators.length > 0) {
-      errorMsgs = validators.map(validator => validator(val));
-    }
+    // const hasErrorMsg = errorMsgs.find(msg => msg !== '');
 
-    const hasErrorMsg = errorMsgs.find(msg => msg !== '');
+    // const msg = hasErrorMsg === undefined ? '' : hasErrorMsg;
 
-    const msg = hasErrorMsg === undefined ? '' : hasErrorMsg;
+    const msg = validateInput(val, validators);
 
     onChangeText(val, msg);
   };
 
-  const validateInput = () => {
-    let errorMsgs = [];
+  const updatedOnBlur = () => {
+    // let errorMsgs = [];
 
-    // Run if passed
-    if (validators.length > 0) {
-      errorMsgs = validators.map(validator => validator(value));
-    }
+    // // Run if passed
+    // if (validators.length > 0) {
+    //   errorMsgs = validators.map(validator => validator(value));
+    // }
 
-    const hasErrorMsg = errorMsgs.find(msg => msg !== '');
+    // const hasErrorMsg = errorMsgs.find(msg => msg !== '');
 
-    const msg = hasErrorMsg === undefined ? '' : hasErrorMsg;
+    // const msg = hasErrorMsg === undefined ? '' : hasErrorMsg;
+
+    const msg = validateInput(value, validators);
 
     onValidate(msg);
-  }
+    onBlur();
+  };
 
   return (
     <View>
       <Item floatingLabel>
         <Label>{transFormedLabel}</Label>
-        <Input value={value} onChangeText={updatedOnChangeText} onFocus={onFocus} onBlur={validateInput} />
+        <Input
+          value={value}
+          onChangeText={updatedOnChangeText}
+          onFocus={onFocus}
+          onBlur={updatedOnBlur}
+        />
         { isFocused ? <Icon name="close-circle" onPress={onPressIcon} /> : null }
       </Item>
       <View style={{ paddingLeft: 16 }}>
@@ -76,6 +89,7 @@ TextField.propTypes = {
   errorMsg: PropTypes.string,
   focusedInput: PropTypes.string,
   label: PropTypes.string,
+  onBlur: PropTypes.func,
   onChangeText: PropTypes.func,
   onFocus: PropTypes.func,
   onPressIcon: PropTypes.func,
@@ -88,6 +102,7 @@ TextField.defaultProps = {
   errorMsg: '',
   focusedInput: '',
   label: 'label',
+  onBlur: () => {},
   onChangeText: () => {},
   onFocus: () => {},
   onPressIcon: () => {},
