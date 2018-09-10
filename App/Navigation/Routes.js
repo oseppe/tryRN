@@ -1,7 +1,9 @@
 import React from 'react';
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Navigation } from 'react-native-navigation';
-import { Router, Stack, Scene, Actions, } from 'react-native-router-flux';
+import {
+  Router, Stack, Scene, Actions,
+} from 'react-native-router-flux';
 
 import Profile from '../Screens/Profile';
 import Home from '../Screens/Home';
@@ -79,14 +81,14 @@ export const AppRoutes = () => {
   return (
     <Router>
       <Stack key={ROUTE_KEYS.ROOT}>
-        <Scene key={ROUTE_KEYS.WELCOME} component={Welcome} hideNavBar={true}/>
-        <Scene key={ROUTE_KEYS.LOGIN} component={Login} title="Login" hideNavBar={hideNavBar}/>
+        <Scene key={ROUTE_KEYS.WELCOME} component={Welcome} hideNavBar />
+        <Scene key={ROUTE_KEYS.LOGIN} component={Login} title="Login" hideNavBar={hideNavBar} />
         <Scene key={ROUTE_KEYS.HOME} component={Home} title="Home" hideNavBar={hideNavBar} />
-        <Scene key={ROUTE_KEYS.ADVISORS} component={Home} title="Advisors"/>
+        <Scene key={ROUTE_KEYS.ADVISORS} component={Home} title="Advisors" />
         <Scene key={ROUTE_KEYS.REGISTER_ACCOUNT} component={RegisterAccount} title="Register Account" hideNavBar={hideNavBar} />
       </Stack>
     </Router>
-  )
-}
+  );
+};
 
 export const GotoScreen = key => Actions[key]();
