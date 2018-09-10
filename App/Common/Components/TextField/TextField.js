@@ -7,12 +7,9 @@ import {
 } from 'native-base';
 import PropTypes from 'prop-types';
 
-
+import styles from './styles';
 import { validateInput } from '../../Utils/validations';
-
 import { capitalize } from '../../Utils/stringUtils';
-
-import { MainPalette } from '../../Constants/colors';
 
 const TextField = (props) => {
   const {
@@ -78,10 +75,10 @@ const TextField = (props) => {
           onBlur={updatedOnBlur}
           secureTextEntry={secureTextEntry}
         />
-        { isFocused ? <Icon name="close-circle" style={{ color: MainPalette.mineShaft }} onPress={onPressIcon} /> : null }
+        { isFocused ? <Icon name="close-circle" style={styles.btnClearIcon} onPress={onPressIcon} /> : null }
       </Item>
-      <View style={{ paddingLeft: 16 }}>
-        <Text style={{ color: MainPalette.burntSienna }}>{errorMsg}</Text>
+      <View style={styles.inputMessageWrapper}>
+        <Text style={styles.errorMsgColor}>{errorMsg}</Text>
       </View>
     </View>
   );

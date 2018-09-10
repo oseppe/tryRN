@@ -1,20 +1,17 @@
 import React from 'react';
 // import { } from 'react-native';
 import {
-  Content, Container, Form, Item, Label, Input, Icon,
+  Content, Container, Form,
 } from 'native-base';
-// import { colors } from '../../Themes/colors';
+
 
 import Header from '../../Common/Components/CustomHeader';
 import BtnBack from '../../Common/Components/CustomHeaderActions/LeftBackButton';
 import TextField from '../../Common/Components/TextField';
 import { required, noXs } from '../../Common/Utils/validations';
+import styles from './styles';
 
 export default class RegisterAccount extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
   state = {
     policy: '',
     policyError: '',
@@ -22,13 +19,6 @@ export default class RegisterAccount extends React.Component {
     nameError: '',
     focusedInput: '',
   }
-
-  _scrollToInput = (reactNode) => {
-    // Add a 'scroll' ref to your ScrollView
-    this.scroll.scrollToFocusedInput(reactNode);
-  }
-  // enableAutomaticScroll
-  // enableOnAndroid
 
   onPressIcon = (label) => () => this.setState({ [label]: '' })
 
@@ -75,12 +65,9 @@ export default class RegisterAccount extends React.Component {
           enableOnAndroid
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={false}
-          contentContainerStyle={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
+          contentContainerStyle={styles.contentContainer}
         >
-          <Form>
+          <Form style={styles.form}>
             <TextField
               label="policy"
               value={policy}
@@ -113,19 +100,6 @@ export default class RegisterAccount extends React.Component {
   }
 }
 
-
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// })
-// style={{
-//   justifyContent: 'space-around',
-//   alignItems: 'center',
-//   height: '100%',
-// }}
-
 /* <Form>
           <Item floatingLabel>
             <Label>Policy No</Label>
@@ -156,7 +130,3 @@ export default class RegisterAccount extends React.Component {
             <Input />
           </Item>
         </Form> */
-
-/*  <View style={{ paddingLeft: 16 }}>
-      <Text style={{ color: '#333333' }}>Error</Text>
-    </View> */
