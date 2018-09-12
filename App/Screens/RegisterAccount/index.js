@@ -1,3 +1,4 @@
-import RegisterAccount from './RegisterAccount';
+// import RegisterAccount from './RegisterAccount';
+import RegisterAccountRF from './RegisterAccountRF';
 
-export default RegisterAccount;
+export default RegisterAccountRF;
