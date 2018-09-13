@@ -1,4 +1,5 @@
 import enPH from './strings/en_PH';
+import defaultLabels from './defaultLabels';
 
 const getFromJSON = (locale = 'en_PH') => {
   let data = {};
@@ -17,6 +18,25 @@ const getLabelsSource = () => {
 };
 
 /*
+* Gets label or text matching the key passed
+* if key doesnt exist in the label source, use default
+* if still not in default, return an empty string
+* @param {object} labels from label source
+* @param {object} defaults default labels
+* @param {string} key
+* @return {string} label
+*/
+export const getMatchingText = (labels, defaults, key) => {
+  let label = '';
+
+  if (labels[key]) label = labels[key];
+  // Use default value if passed key not in labelsSource
+  else if (defaults[key]) label = defaults[key];
+
+  return label;
+};
+
+/*
 * Gets label or text shown to user based on passed key
 * @param {string} key for the text
 * @return {string} label
@@ -24,7 +44,7 @@ const getLabelsSource = () => {
 export const getText = (key = '') => {
   const labels = getLabelsSource();
 
-  return labels[key] ? labels[key] : '';
+  return getMatchingText(labels, defaultLabels, key);
 };
 
 /*
@@ -37,12 +57,12 @@ export const getTexts = (keys = []) => {
 
   const labels = getLabelsSource();
 
-  // Creates an obj with key as the key passed and the 
+  // Creates an obj with key as the key passed and the
   // corresponding value from getLabelsSource
-  const requiredLabels = keys.reduce((acc, key) => {
-    acc[key] = labels[key] ? labels[key] : '';
-    return acc;
-  }, {});
+  const requiredLabels = keys.reduce((acc, key) => ({
+    ...acc,
+    [key]: getMatchingText(labels, defaultLabels, key),
+  }), {});
 
   return requiredLabels;
 };
