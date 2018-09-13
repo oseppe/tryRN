@@ -6,11 +6,8 @@ import { Actions } from 'react-native-router-flux';
 import WelcomePhoto from './assets/images/welcome_screen.jpg';
 import { MainPalette } from '../../Common/Constants/colors';
 import { ROUTE_KEYS } from '../../Common/Constants/keys';
-import getText from '../../Localisation/i18nHelper';
-import {
-  BTN_LOGIN,
-  BTN_REGISTER,
-} from '../../Localisation/keys';
+import { getTexts } from '../../Localisation/textsHelper';
+import { BTN_LOGIN, BTN_REGISTER } from '../../Localisation/labelKeys';
 
 class Welcome extends React.Component {
   onPressLogin = () => Actions[ROUTE_KEYS.LOGIN].call();
@@ -18,6 +15,8 @@ class Welcome extends React.Component {
   onPressRegister = () => Actions[ROUTE_KEYS.REGISTER_ACCOUNT].call();
 
   render() {
+    const labels = getTexts([BTN_LOGIN, BTN_REGISTER]);
+
     return (
       <Container>
         <ImageBackground
@@ -33,7 +32,7 @@ class Welcome extends React.Component {
               margin: 20,
             }}
           >
-            <Text>{getText(BTN_LOGIN)}</Text>
+            <Text>{labels[BTN_LOGIN]}</Text>
           </Button>
           <Button
             block
@@ -47,7 +46,7 @@ class Welcome extends React.Component {
               marginBottom: 30,
             }}
           >
-            <Text>{getText(BTN_LOGIN)}</Text>
+            <Text>{labels[BTN_REGISTER]}</Text>
           </Button>
         </ImageBackground>
       </Container>

@@ -11,7 +11,6 @@ import RegisterForm from './RegisterForm';
 import styles from './styles';
 
 export default class RegisterAccount extends React.Component {
-
   onSubmit = (values) => {
     console.log('Submit!');
     console.log(values);

@@ -11,15 +11,15 @@ export default class Login extends React.Component {
     password: '',
   }
 
-  onChangeUsername = username => this.setState({username});
-  onChangePassword = password => this.setState({password});
+  onChangeUsername = username => this.setState({ username });
+
+  onChangePassword = password => this.setState({ password });
 
 	onPressLogin = () => {
-    const { username, password } = this.state;
-
-    // this.props.navigation.navigate('AuthLoading', { username, password });
+    // const { username, password } = this.state;
+    // // this.props.navigation.navigate('AuthLoading', { username, password });
     GotoScreen('advisors');
-	}
+  }
 
   render() {
     const { username, password } = this.state;
