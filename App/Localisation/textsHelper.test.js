@@ -1,5 +1,7 @@
 import { BTN_LOGIN, TITLE_REGISTER } from './labelKeys';
-import { getDefaultFromKey, getMatchingText, getText, getTexts } from './textsHelper';
+import {
+  getDefaultFromKey, getMatchingText, getText, getTexts,
+} from './textsHelper';
 import { isObjectEmpty } from './utils';
 
 
