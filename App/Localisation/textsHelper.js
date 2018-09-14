@@ -31,7 +31,10 @@ export const getMatchingText = (labels, defaults, key) => {
 
   if (labels[key]) label = labels[key];
   // Use default value if passed key not in labelsSource
+  // TODO: Add logger here indicating that key was not in labelsSource
   else if (defaults[key]) label = defaults[key];
+  // TODO: Add logger here indicating that key was not in defaults
+  // else loggerFxn();
 
   return label;
 };
