@@ -1,8 +1,8 @@
 {
-  "btnLogin": "Login",
-  "btnRegister": "Register",
-  "registerTitle": "Register Account",
-  "formLabelEmail": "Email",
-  "formLabelPolicy": "Policy",
-  "btnSubmitGeneric": "Submit"
+  "btn_login": "Login",
+  "btn_register": "Register",
+  "title_register": "Register Account",
+  "formLabel_email": "Email",
+  "formLabel_policy": "Policy",
+  "btnGeneric_submit": "Submit"
 }

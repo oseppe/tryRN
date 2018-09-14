@@ -1,5 +1,4 @@
 import enPH from './strings/en_PH';
-import defaultLabels from './defaultLabels';
 
 const getFromJSON = (locale = 'en_PH') => {
   let data = {};
@@ -18,23 +17,37 @@ const getLabelsSource = () => {
 };
 
 /*
+* Get label value based on key
+* @param {string} key
+* @return {string} label
+*/
+export const getDefaultFromKey = (key = '') => {
+  // Check if passed key is a string
+  if (typeof key !== 'string') return '';
+  // Check if passed key follows separator convention for default label
+  if (!key.includes('_')) return key;
+
+  const processedKey = key.split('_');
+
+  // Check if there is a default label
+  if (processedKey.length > 1 && processedKey[1].trim() === '') return key;
+
+  return processedKey[1].replace('-', ' ');
+};
+
+/*
 * Gets label or text matching the key passed
 * if key doesnt exist in the label source, use default
 * if still not in default, return an empty string
 * @param {object} labels from label source
-* @param {object} defaults default labels
 * @param {string} key
 * @return {string} label
 */
-export const getMatchingText = (labels, defaults, key) => {
-  let label = '';
+export const getMatchingText = (labels, key) => {
+  let label = getDefaultFromKey(key);
 
-  if (labels[key]) label = labels[key];
-  // Use default value if passed key not in labelsSource
   // TODO: Add logger here indicating that key was not in labelsSource
-  else if (defaults[key]) label = defaults[key];
-  // TODO: Add logger here indicating that key was not in defaults
-  // else loggerFxn();
+  if (labels[key]) label = labels[key];
 
   return label;
 };
@@ -47,7 +60,7 @@ export const getMatchingText = (labels, defaults, key) => {
 export const getText = (key = '') => {
   const labels = getLabelsSource();
 
-  return getMatchingText(labels, defaultLabels, key);
+  return getMatchingText(labels, key);
 };
 
 /*
@@ -64,7 +77,7 @@ export const getTexts = (keys = []) => {
   // corresponding value from getLabelsSource
   const requiredLabels = keys.reduce((acc, key) => ({
     ...acc,
-    [key]: getMatchingText(labels, defaultLabels, key),
+    [key]: getMatchingText(labels, key),
   }), {});
 
   return requiredLabels;
