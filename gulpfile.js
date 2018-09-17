@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const yargs = require('yargs');
 const PluginError = require('plugin-error');
 const rename = require('gulp-rename');
+const fs = require('fs');
 
 gulp.task('create:screen', () => {
   const { name } = yargs.argv;
@@ -16,12 +17,21 @@ gulp.task('create:screen', () => {
     );
   }
 
+  const screenDir = `./App/Screens/${name}`;
+  const isScreenExists = fs.existsSync(screenDir);
+
   // Throw an error when ScreenName already exists
+  if (isScreenExists) {
+    throw new PluginError(
+      'create:screen',
+      'Screen Name already exists',
+    );
+  }
 
-  // console.log('no errors');
+  // Create Screen Directory
+  mkdirp(screenDir);
 
-  mkdirp(`./App/Screens/${name}`);
-
+  // Create Screen Component
   gulp.src('./App/templates/componentJS.txt')
     .pipe(template({
       componentName: name,
@@ -30,15 +40,17 @@ gulp.task('create:screen', () => {
       basename: name,
       extname: '.js',
     }))
-    .pipe(gulp.dest(`./App/Screens/${name}`));
+    .pipe(gulp.dest(screenDir));
 
+  // Create test for screen component
   gulp.src('./App/templates/componentJSTest.txt')
     .pipe(rename({
       basename: name,
       extname: '.test.js',
     }))
-    .pipe(gulp.dest(`./App/Screens/${name}`));
+    .pipe(gulp.dest(screenDir));
 
+  // Create index exporter of screen component
   gulp.src('./App/templates/index.txt')
     .pipe(template({
       componentName: name,
@@ -46,17 +58,19 @@ gulp.task('create:screen', () => {
     .pipe(rename({
       extname: '.js',
     }))
-    .pipe(gulp.dest(`./App/Screens/${name}`));
+    .pipe(gulp.dest(screenDir));
 
+  // Create styles for screen component
   gulp.src('./App/templates/styles.txt')
     .pipe(rename({
       extname: '.js',
     }))
-    .pipe(gulp.dest(`./App/Screens/${name}`));
+    .pipe(gulp.dest(screenDir));
 
+  // Create api file for screen component
   gulp.src('./App/templates/api.txt')
     .pipe(rename({
       extname: '.js',
     }))
-    .pipe(gulp.dest(`./App/Screens/${name}`));
+    .pipe(gulp.dest(screenDir));
 });
