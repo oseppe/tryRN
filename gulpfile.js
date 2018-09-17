@@ -12,7 +12,7 @@ const GENERATE_COMMON_COMPONENT = 'Common Component';
 const EXTRAS_API = 'Api';
 const EXTRAS_REDUCER = 'Reducer';
 
-const createScreen = (name) => {
+const createScreen = (name, { api = false, reducer = false }) => {
   const screenDir = `./App/Screens/${name}`;
 
   // Create Screen Directory
@@ -55,11 +55,22 @@ const createScreen = (name) => {
     .pipe(gulp.dest(screenDir));
 
   // Create api file for screen component
-  gulp.src('./App/templates/api.txt')
-    .pipe(rename({
-      extname: '.js',
-    }))
-    .pipe(gulp.dest(screenDir));
+  if (api) {
+    gulp.src('./App/templates/api.txt')
+      .pipe(rename({
+        extname: '.js',
+      }))
+      .pipe(gulp.dest(screenDir));
+  }
+
+  // Create reducer file for screen component
+  if (reducer) {
+    gulp.src('./App/templates/reducer.txt')
+      .pipe(rename({
+        extname: '.js',
+      }))
+      .pipe(gulp.dest(screenDir));
+  }
 };
 
 const checkIsNameInvalid = name => name === undefined
@@ -83,17 +94,17 @@ const checkScreenName = (name) => {
   if (checkIsScreenExists(name)) {
     throw new PluginError(
       'generate:screen',
-      'Screen Name already exists',
+      'Screen Name already in use',
     );
   }
 };
 
 gulp.task('generate:screen', () => {
-  const { name } = yargs.argv;
+  const { name, api, reducer } = yargs.argv;
 
   checkScreenName(name);
 
-  createScreen(name);
+  createScreen(name, { api, reducer });
 });
 
 gulp.task('generate', () => {
@@ -108,10 +119,10 @@ gulp.task('generate', () => {
       {
         type: 'input',
         name: 'name',
-        message: 'Name of Component?',
+        message: 'Name of Screen?',
         validate: (answer) => {
           if (checkIsNameInvalid(answer)) return 'Must provide a name';
-          if (checkIsScreenExists(answer)) return 'Screen Name already exists';
+          if (checkIsScreenExists(answer)) return 'Screen Name already in use';
           return true;
         },
         when: answers => answers.type === GENERATE_SCREEN,
