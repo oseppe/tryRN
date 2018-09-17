@@ -6,27 +6,8 @@ const PluginError = require('plugin-error');
 const rename = require('gulp-rename');
 const fs = require('fs');
 
-gulp.task('create:screen', () => {
-  const { name } = yargs.argv;
-
-  // Throw an error when name param is not passed
-  if (name === undefined) {
-    throw new PluginError(
-      'create:screen',
-      'Screen Name missing. Provide one by using the format: create:screen --name <ScreenName>',
-    );
-  }
-
+const createScreen = (name) => {
   const screenDir = `./App/Screens/${name}`;
-  const isScreenExists = fs.existsSync(screenDir);
-
-  // Throw an error when ScreenName already exists
-  if (isScreenExists) {
-    throw new PluginError(
-      'create:screen',
-      'Screen Name already exists',
-    );
-  }
 
   // Create Screen Directory
   mkdirp(screenDir);
@@ -73,4 +54,41 @@ gulp.task('create:screen', () => {
       extname: '.js',
     }))
     .pipe(gulp.dest(screenDir));
+};
+
+const checkIsNameInvalid = name => name === undefined;
+
+const checkIsScreenExists = (name) => {
+  const screenDir = `./App/Screens/${name}`;
+  return fs.existsSync(screenDir);
+};
+
+const checkScreenName = (name) => {
+  // Throw an error when name param is not passed
+  if (checkIsNameInvalid(name)) {
+    throw new PluginError(
+      'create:screen',
+      'Screen Name missing. Provide one by using the format: create:screen --name <ScreenName>',
+    );
+  }
+
+  // Throw an error when ScreenName already exists
+  if (checkIsScreenExists(name)) {
+    throw new PluginError(
+      'create:screen',
+      'Screen Name already exists',
+    );
+  }
+};
+
+gulp.task('create:screen', () => {
+  const { name } = yargs.argv;
+
+  checkScreenName(name);
+
+  createScreen(name);
 });
+
+// gulp.task('create', () => {
+
+// });
