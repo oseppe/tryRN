@@ -12,6 +12,14 @@ const GENERATE_COMMON_COMPONENT = 'Common Component';
 const EXTRAS_API = 'Api';
 const EXTRAS_REDUCER = 'Reducer';
 
+const EXTRAS_SCREEN = [EXTRAS_API, EXTRAS_REDUCER];
+
+/*
+* Create folders and files for the screen
+* @param {string} name
+* @param {object} extra files to generate
+* @return {string} label
+*/
 const createScreen = (name, { api = false, reducer = false }) => {
   const screenDir = `./App/Screens/${name}`;
 
@@ -73,14 +81,57 @@ const createScreen = (name, { api = false, reducer = false }) => {
   }
 };
 
+/*
+* checks if provided name is invalid
+* @param {string} name
+* @return {boolean} isInvalid
+*/
 const checkIsNameInvalid = name => name === undefined
   || (typeof name === 'string' && name.trim() === '');
 
+/*
+* checks if provided name already exists
+* @param {string} name
+* @return {boolean} isExisting
+*/
 const checkIsScreenExists = (name) => {
   const screenDir = `./App/Screens/${name}`;
   return fs.existsSync(screenDir);
 };
 
+/*
+* Converts answer to extra files from array to object
+* @param {array} extra files chosen by user
+* @param {array} extra files available to a single screen
+* @return {object} convertedExtraFiles
+*/
+const convertExtraFiles = (extras, typeExtras) => {
+  // Return empty object if dont need to convert extras
+  if (!Array.isArray(extras)
+  || !Array.isArray(typeExtras)
+  || extras.length === 0
+  || typeExtras.length === 0
+  ) return {};
+
+  // Convert extras from array to object
+  const convertedExtras = typeExtras.reduce((acc, typeExtra) => {
+    // check if a specified typeExtra is in the extras chosen by user
+    const matchedExtra = extras.find(extra => extra === typeExtra);
+
+    return {
+      ...acc,
+      [typeExtra.toLowerCase()]: matchedExtra !== undefined,
+    };
+  }, {});
+
+  return convertedExtras;
+};
+
+/*
+* Checks provided screen name in generate:screen
+* NOTE: throws errors
+* @param {string} name
+*/
 const checkScreenName = (name) => {
   // Throw an error when name param is not passed
   if (checkIsNameInvalid(name)) {
@@ -99,6 +150,7 @@ const checkScreenName = (name) => {
   }
 };
 
+// Gulp task for generate:screen
 gulp.task('generate:screen', () => {
   const { name, api, reducer } = yargs.argv;
 
@@ -107,6 +159,7 @@ gulp.task('generate:screen', () => {
   createScreen(name, { api, reducer });
 });
 
+// Gulp task for interactive generation of components
 gulp.task('generate', () => {
   inquirer
     .prompt([
@@ -136,6 +189,12 @@ gulp.task('generate', () => {
       },
     ])
     .then((answers) => {
-      console.log(answers);
+      const { name, extras, type } = answers;
+
+      if (type === GENERATE_SCREEN) {
+        const convertedExtras = convertExtraFiles(extras, EXTRAS_SCREEN);
+
+        createScreen(name, convertedExtras);
+      } else console.log(`${answers.type} generation is not yet supported`);
     });
 });
