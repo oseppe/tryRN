@@ -14,6 +14,38 @@ const EXTRAS_REDUCER = 'Reducer';
 
 const EXTRAS_SCREEN = [EXTRAS_API, EXTRAS_REDUCER];
 
+const DIR_TEMPLATES = './App/templates';
+const DIR_SCREENS = './App/Screens';
+
+// const formatLowerCamelCase = name => {
+//   const isCommaSeparator = name.includes
+// }
+
+// const formatLowerCamelCase = name => {
+
+// }
+
+const isSeparatorInvalid = (name) => {
+  const isCommaSeparator = name.includes(',');
+  const isDashSeparator = name.includes('-');
+  const isUnderlineSeparator = name.includes('_');
+  const isSpaceSeparator = name.includes(' ');
+
+  const isExistSeparators = [
+    isCommaSeparator,
+    isDashSeparator,
+    isUnderlineSeparator,
+    isSpaceSeparator,
+  ];
+
+  const countSeparators = isExistSeparators.reduce(
+    (acc, isSeparator) => acc + (isSeparator ? 1 : 0),
+    0,
+  );
+
+  return countSeparators > 1;
+};
+
 /*
 * Create folders and files for the screen
 * @param {string} name
@@ -21,13 +53,14 @@ const EXTRAS_SCREEN = [EXTRAS_API, EXTRAS_REDUCER];
 * @return {string} label
 */
 const createScreen = (name, { api = false, reducer = false }) => {
-  const screenDir = `./App/Screens/${name}`;
+  const directoryName = name.toLowerCase();
+  const screenDir = `${DIR_SCREENS}/${directoryName}`;
 
   // Create Screen Directory
   mkdirp(screenDir);
 
   // Create Screen Component
-  gulp.src('./App/templates/componentJS.txt')
+  gulp.src(`${DIR_TEMPLATES}/componentJS.txt`)
     .pipe(template({
       componentName: name,
     }))
@@ -38,7 +71,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
     .pipe(gulp.dest(screenDir));
 
   // Create test for screen component
-  gulp.src('./App/templates/componentJSTest.txt')
+  gulp.src(`${DIR_TEMPLATES}/componentJSTest.txt`)
     .pipe(rename({
       basename: name,
       extname: '.test.js',
@@ -46,7 +79,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
     .pipe(gulp.dest(screenDir));
 
   // Create index exporter of screen component
-  gulp.src('./App/templates/index.txt')
+  gulp.src(`${DIR_TEMPLATES}/index.txt`)
     .pipe(template({
       componentName: name,
     }))
@@ -56,7 +89,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
     .pipe(gulp.dest(screenDir));
 
   // Create styles for screen component
-  gulp.src('./App/templates/styles.txt')
+  gulp.src(`${DIR_TEMPLATES}/styles.txt`)
     .pipe(rename({
       extname: '.js',
     }))
@@ -64,7 +97,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
 
   // Create api file for screen component
   if (api) {
-    gulp.src('./App/templates/api.txt')
+    gulp.src(`${DIR_TEMPLATES}/api.txt`)
       .pipe(rename({
         extname: '.js',
       }))
@@ -73,7 +106,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
 
   // Create reducer file for screen component
   if (reducer) {
-    gulp.src('./App/templates/reducer.txt')
+    gulp.src(`${DIR_TEMPLATES}/reducer.txt`)
       .pipe(rename({
         extname: '.js',
       }))
@@ -87,6 +120,7 @@ const createScreen = (name, { api = false, reducer = false }) => {
 * @return {boolean} isInvalid
 */
 const checkIsNameInvalid = name => name === undefined
+  || typeof name !== 'string'
   || (typeof name === 'string' && name.trim() === '');
 
 /*
@@ -95,7 +129,7 @@ const checkIsNameInvalid = name => name === undefined
 * @return {boolean} isExisting
 */
 const checkIsScreenExists = (name) => {
-  const screenDir = `./App/Screens/${name}`;
+  const screenDir = `${DIR_SCREENS}/${name}`;
   return fs.existsSync(screenDir);
 };
 
@@ -146,6 +180,14 @@ const checkScreenName = (name) => {
     throw new PluginError(
       'generate:screen',
       'Screen Name already in use',
+    );
+  }
+
+  // Throw an error if separator is not valid
+  if (isSeparatorInvalid(name)) {
+    throw new PluginError(
+      'generate:screen',
+      'Dont mix the valid separators: comma, space, dash, underline',
     );
   }
 };
